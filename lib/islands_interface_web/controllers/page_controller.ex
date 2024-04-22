@@ -3,9 +3,7 @@ defmodule IslandsInterfaceWeb.PageController do
   use IslandsInterfaceWeb, :controller
 
   def home(conn, _params) do
-    # TODO move it into engine
-    ongoing_games = :ets.tab2list(:game_state)
-    render(conn, :home, layout: false, games: ongoing_games)
+    render(conn, :home, layout: false, games: IslandsEngine.GamesRepository.find_all_names())
   end
 
   def test(conn, %{"name" => name}) do
