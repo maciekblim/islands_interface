@@ -1,14 +1,30 @@
-<.flash_group flash={@flash} />
-<div>
-  <.form :let={player} action={"/test"}>
-    <.input type="text" field={player[:name]}  />
-    <button>Start new game</button>
-  </.form>
-</div>
-<div style="margin-top: 30px">
-  <ul>
-    <%= Enum.map(@games, fn(game) -> %>
-      <li><%= game %></li>
-    <% end) %>
-  </ul>
-</div>
+<!DOCTYPE html>
+<html lang="en" class="[scrollbar-gutter:stable]">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content={get_csrf_token()} />
+    <.live_title suffix=" · Phoenix Framework">
+      <%= assigns[:page_title] || "IslandsInterface" %>
+    </.live_title>
+    <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
+    </script>
+  </head>
+  <body class="bg-white antialiased">
+    <.flash_group flash={@flash} />
+    <div>
+      <.form :let={player} action={"/test"}>
+        <.input type="text" field={player[:name]}  />
+        <button>Start new game</button>
+      </.form>
+    </div>
+    <div style="margin-top: 30px">
+      <ul>
+        <%= Enum.map(@games, fn(game) -> %>
+          <li><%= game %></li>
+        <% end) %>
+      </ul>
+    </div>
+  </body>
+</html>
