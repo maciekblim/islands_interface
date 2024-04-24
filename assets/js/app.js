@@ -56,17 +56,40 @@ function new_channel(subtopic, screen_name) {
 window.new_channel = new_channel;
 
 function join(channel) {
-  channel.join()
-    .receive("ok", response => console.log("Joined successfully!", response))
-    .receive("error", response => console.log("Unable to join!", response))
+  channel
+    .join()
+    .receive("ok", (response) => console.log("Joined successfully!", response))
+    .receive("error", (response) => console.log("Unable to join!", response));
 }
 
-window.join = join
+window.join = join;
 
 function leave(channel) {
-  channel.leave()
-    .receive("ok", response => console.log("Left successfully!", response))
-    .receive("error", response => console.log("Unable to leave!", response))
+  channel
+    .leave()
+    .receive("ok", (response) => console.log("Left successfully!", response))
+    .receive("error", (response) => console.log("Unable to leave!", response));
 }
 
 window.leave = leave;
+
+function new_game(channel) {
+  channel
+    .push("new_game")
+    .receive("ok", (response) => console.log("New game!", response))
+    .receive("error", (response) =>
+      console.log("Unable to start new game!", response)
+    );
+}
+
+window.new_game = new_game;
+
+function add_player(channel, player) {
+  channel
+    .push("add_player", player)
+    .receive("error", (response) =>
+      console.log("Unable to add new player!", response)
+    );
+}
+
+window.add_player = add_player;
