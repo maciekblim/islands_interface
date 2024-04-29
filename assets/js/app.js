@@ -93,3 +93,78 @@ function add_player(channel, player) {
 }
 
 window.add_player = add_player;
+
+function position_island(channel, player, island, row, col) {
+  channel
+    .push("position_island", {
+      player,
+      island,
+      row,
+      col,
+    })
+    .receive("ok", (response) => console.log("Island positioned!", response))
+    .receive("error", (response) =>
+      console.log("Unable to position insland!", response)
+    );
+}
+
+window.position_island = position_island;
+
+function set_islands(channel, player) {
+  channel
+    .push("set_islands", player)
+    .receive("ok", (response) => {
+      console.log("Here is the board:");
+      console.dir(response.board);
+    })
+    .receive("error", (response) =>
+      console.log("Unable to set islands for:", player, response)
+    );
+}
+
+window.set_islands = set_islands;
+
+function guess_coordinate(channel, player, row, col) {
+  channel
+    .push("position_island", { player, row, col })
+    .receive("error", (response) =>
+      console.log("Unable to guess coordinate!", player, response)
+    );
+}
+
+window.guess_coordinate = guess_coordinate;
+
+window.setup1 = function setup1(name, player) {
+  game_channel = new_channel("moon", "moon");
+  join(game_channel);
+  if (player === "player1") {
+    new_game(game_channel);
+    game_channel.on("player_added", console.log);
+  } else {
+    game_channel.on("player_added", console.log);
+    add_player(game_channel, name);
+  }
+};
+
+window.setup2 = function setup2(game_channel, player) {
+  position_island(game_channel, player, "dot", 1, 1);
+  position_island(game_channel, player, "atoll", 1, 3);
+  position_island(game_channel, player, "l_shape", 1, 8);
+  position_island(game_channel, player, "s_shape", 4, 3);
+  position_island(game_channel, player, "s_shape", 6, 3);
+  position_island(game_channel, player, "square", 5, 7);
+};
+
+function attach_events(channel) {
+  channel.on("player_added", (response) => console.log(response.message));
+
+  channel.on("player_set_islands", (response) =>
+    console.log("Player set islands: ", response.player)
+  );
+
+  channel.on("player_guessed_coordinate", (response) =>
+    console.log("Player guessed coordinate: ", response.result)
+  );
+}
+
+window.attach_events = attach_events;
