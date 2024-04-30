@@ -16,7 +16,8 @@ defmodule IslandsInterface.Application do
       # Start a worker by calling: IslandsInterface.Worker.start_link(arg)
       # {IslandsInterface.Worker, arg},
       # Start to serve requests, typically the last entry
-      IslandsInterfaceWeb.Endpoint
+      IslandsInterfaceWeb.Endpoint,
+      IslandsInterfaceWeb.Presence
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -135,8 +135,9 @@ function guess_coordinate(channel, player, row, col) {
 window.guess_coordinate = guess_coordinate;
 
 window.setup1 = function setup1(name, player) {
-  game_channel = new_channel("moon", "moon");
+  game_channel = new_channel("moon", name);
   join(game_channel);
+  game_channel.push("show_subscribers");
   if (player === "player1") {
     new_game(game_channel);
     game_channel.on("player_added", console.log);
@@ -164,6 +165,10 @@ function attach_events(channel) {
 
   channel.on("player_guessed_coordinate", (response) =>
     console.log("Player guessed coordinate: ", response.result)
+  );
+
+  channel.on("subscribers", (response) =>
+    console.log("These players have joined: ", response)
   );
 }
 
